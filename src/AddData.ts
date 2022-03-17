@@ -2,10 +2,13 @@ import { addQuestion, addTopic, addTopicHelper, getParentIndexSetRight } from ".
 var TopicsArray;
 var QuestionsArray;
 
+// returns particular feild from Questions and Topics - Topics.csv file
 export const getRecord = (row: number, column: number) => {
   return TopicsArray[row][column];
 }
 
+
+// Add all the topics to database from Questions and Topics - Topics.csv file
 export const addTopics = async () => {
   var fs = require('fs'); 
   var { parse } = require('csv-parse');
@@ -35,6 +38,8 @@ export const addTopics = async () => {
   fs.createReadStream(__dirname+'/Questions and Topics - Topics.csv').pipe(parser);
 }
 
+
+// Add all the questions to database from Questions and Topics - Questions.csv file
 export const addQuestions = async () => {
   var fs = require('fs'); 
   var { parse } = require('csv-parse');
@@ -48,11 +53,9 @@ export const addQuestions = async () => {
         }
       })
     })
-    // console.log(rec)
     for (let index in QuestionsArray) {
       const length = Object.keys(QuestionsArray[index]).length
       for (let ind = 1;ind<length;ind++) {
-        // console.log("rec[index][ind]: " + ind + " rec[index][0]: " + QuestionsArray[index][0])
         await addQuestion(QuestionsArray[index][ind], QuestionsArray[index][0])
       }
 

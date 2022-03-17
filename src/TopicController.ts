@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from "express";
 import { getRecord } from "./AddData";
 import { Topic } from "./TopicModel";
 
+
+// get right index of parent node
 export const getParentIndexSetRight = async (row: number, column: number) => {
   if (column < 1) {
     const parent = await Topic.findById("Biology")
@@ -17,6 +19,7 @@ export const getParentIndexSetRight = async (row: number, column: number) => {
   return -1;
 }
 
+// Add Topic Helper ( Recursion )
 export const addTopicHelper = async (row:number, column: number) => {
   let parentRight = await getParentIndexSetRight(row,column-1)
   if (parentRight == -1) {
@@ -27,6 +30,8 @@ export const addTopicHelper = async (row:number, column: number) => {
   await addTopic(topic, parentRight)
 }
 
+
+// Add topic to database
 export const addTopic = async (topic: string, parentRight: number) => {
   console.log("Adding Topic: " + topic)
   const existingTopic = await Topic.findById(topic)
@@ -42,6 +47,8 @@ export const addTopic = async (topic: string, parentRight: number) => {
   }
 }
 
+
+// Add questions to database
 export const addQuestion = async (topic: string, quesNum: number) => {
   const existingTopic = await Topic.findById(topic)
   if (existingTopic != null) {
@@ -52,6 +59,7 @@ export const addQuestion = async (topic: string, quesNum: number) => {
   console.log("Cannot add Question Number: " + quesNum + " to topic: " + topic)
 }
 
+// Search Query function
 export const getQuestions = async (req: Request, res: Response, next: NextFunction) => {
   let topic = req.query.q
   topic = topic.toString().trim()

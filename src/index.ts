@@ -4,6 +4,7 @@ import { PORT, MONGO_URI } from "./config";
 import { addQuestions, addTopics } from "./AddData"
 import { getQuestions } from "./TopicController";
 
+// starts main server
 const startServer = async () => {
   const app = express()
   try {
